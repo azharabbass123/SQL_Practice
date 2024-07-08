@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use Illuminate\Validation\Rules\Password;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -9,11 +10,11 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * 
      */
     public function index()
     {
-        $users = User::simplePaginate(10);
+        $users = User::simplePaginate(9);
         
         // return $users;
         return view('home', compact('users'));
@@ -22,7 +23,7 @@ class UserController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     *
      */
     public function create()
     {
@@ -33,10 +34,18 @@ class UserController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * 
      */
     public function store(Request $request)
     {
+
+        $request->validate([
+            'first_name' =>['required'],
+            'last_name' => ['required'],
+            'email' => ['required', 'email'],
+            'password' => ['required', Password::min(6)]
+        ]);
+
         $user = new User;
         
         $user->first_name = $request->first_name;
@@ -53,7 +62,7 @@ class UserController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     *
      */
     public function show(User $user)
     {
@@ -64,7 +73,7 @@ class UserController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     *
      */
     public function edit(User $user)
     {
@@ -76,10 +85,16 @@ class UserController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * 
      */
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'first_name' => ['required'],
+            'last_name' => ['required'],
+            'email' => ['required', 'email']
+        ]);
+
         $user = User::find($id);
         
         $user->first_name = $request->first_name;
@@ -94,10 +109,14 @@ class UserController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * 
      */
     public function destroy($id)
     {
-        //
+        $user = User::find($id);
+        $user->delete();
+
+        return redirect()->route('user.index')
+            ->with('statusDel','User deleted successfully!');
     }
 }

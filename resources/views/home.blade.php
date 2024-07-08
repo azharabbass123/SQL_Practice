@@ -15,6 +15,16 @@ All Users Data
         @endif
     </div>
 </div>
+<div class="row">
+    <div class="col-8">
+        @if (session('statusDel'))
+            <div class="alert alert-info">
+                {{session('statusDel')}}
+            </div>
+        
+        @endif
+    </div>
+</div>
 <div class="my-2">
 <a href="{{route('user.create')}}" class="btn btn-primary btn-sm">Add new</a>
 </div>
@@ -34,8 +44,15 @@ All Users Data
                         <td class="text-center">{{$user->email}}</td>
                         <td class="text-center"><a href="{{route('user.show', $user->id)}}" class="btn btn-primary btn-sm">View</a></td>
                         <td class="text-center"><a href="{{route('user.edit', $user->id)}}" class="btn btn-warning btn-sm">Update</a></td>
-                        <td class="text-center"><a href="" class="btn btn-danger btn-sm">Delete</a></td>
-                        </tr>
+                        <td class="text-center">
+                            <form action={{route('user.destroy', $user->id)}} method="post">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                            </form>
+                            
+                        </td>
+                    </tr>
                     @endforeach
                         
                 </table>

@@ -11,21 +11,21 @@ class StudentController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     *
      */
     public function index()
     {
-        $users = User::simplePaginate(10);
+        $student = Student::all();
         
-        // return $users;
-        return view('welcome', compact('users'));
+         return $student;
+        //return view('welcome', compact('users'));
         }
     
 
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     *
      */
     public function create()
     {
@@ -36,7 +36,7 @@ class StudentController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+    
      */
     public function store(Request $request)
     {
@@ -47,7 +47,7 @@ class StudentController extends Controller
      * Display the specified resource.
      *
      * @param  \App\Models\Student  $student
-     * @return \Illuminate\Http\Response
+    
      */
     public function show(Student $student)
     {
@@ -58,7 +58,7 @@ class StudentController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\Student  $student
-     * @return \Illuminate\Http\Response
+    
      */
     public function edit(Student $student)
     {
@@ -70,7 +70,7 @@ class StudentController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Student  $student
-     * @return \Illuminate\Http\Response
+    
      */
     public function update(Request $request, Student $student)
     {
@@ -81,7 +81,7 @@ class StudentController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Student  $student
-     * @return \Illuminate\Http\Response
+     
      */
     public function destroy(Student $student)
     {
